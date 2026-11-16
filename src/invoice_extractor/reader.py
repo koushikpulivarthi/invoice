@@ -9,7 +9,10 @@ Supported:
 import re
 from pathlib import Path
 
-import fitz  # PyMuPDF
+try:  # PyMuPDF; the module was renamed from "fitz" to "pymupdf"
+    import pymupdf as fitz
+except ImportError:  # older PyMuPDF versions
+    import fitz
 from docx import Document
 from docx.table import Table
 from docx.text.paragraph import Paragraph
