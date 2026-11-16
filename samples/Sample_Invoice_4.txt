@@ -1,0 +1,26 @@
+INVOICE
+BlueRiver Analytics LLC
+125 Business Plaza, Newark, NJ 07102
+Phone: (555) 555-1000
+accounts@company.com
+
+Bill To:
+David Wilson
+410 Customer Avenue
+Edison, NJ 08817
+
+Invoice No: INV-2026-104
+Invoice Date: 01-Nov-2026
+Due Date: 15-Nov-2026
+Terms: Net 15
+Description Qty Unit Price Amount
+Dashboard Development 1 $2,200.00 $2,200.00
+Data Integration 2 $950.00 $1,900.00
+Training Session 1 $750.00 $750.00
+Subtotal: $4,850.00
+NJ Tax (6.625%): $321.31
+Total Due: $5,171.31
+Payment Method: Bank Transfer
+Bank: Garden State Bank
+Account: XXXX4521
+Routing: XXXX8899

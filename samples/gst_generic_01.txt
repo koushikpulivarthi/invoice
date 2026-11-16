@@ -1,0 +1,13 @@
+TAX INVOICE
+Sharma Stationery
+GSTIN: 07ABCDE1234F1Z9
+Invoice No: GST-2026-19
+Invoice Date: 13-11-2026
+Bill To: Patel Enterprises
+GSTIN: 24AAACT2727Q1ZV
+HSN/SAC: 4820
+Place of Supply: Gujarat
+Taxable Value: 5000.00
+CGST (9%): 450.00
+SGST (9%): 450.00
+Total: 5900.00

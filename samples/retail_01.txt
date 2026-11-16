@@ -1,0 +1,12 @@
+RETAIL INVOICE
+FreshMart Supermarket
+Store Name: FreshMart Andheri
+Store Code: FM-112
+Bill No: FM/0099
+Date: 12-11-2026
+Items: 6
+Qty: 9
+Discount: 120.00
+Payment Mode: UPI
+Cashier: Sunita
+Total: 1450.00

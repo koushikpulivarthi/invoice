@@ -1,0 +1,14 @@
+LOGISTICS INVOICE
+SpeedX Freight Services
+Consignment No: SX-88213
+E-Way Bill No: 331122334455
+Origin: Pune
+Destination: Chennai
+Consignor: Acme Motors
+Consignee: Shree Retail
+Vehicle No: MH12AB1234
+Weight: 850 kg
+Distance: 1150 km
+Freight Charges: 24000.00
+IGST (18%): 4320.00
+Total: 28320.00

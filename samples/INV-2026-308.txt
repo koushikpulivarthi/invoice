@@ -1,0 +1,8 @@
+INVOICE
+Invoice Number: INV-2026-308
+Customer Name: Daniel Anderson
+Company Name: FutureGrid AI
+Phone: 555-308-8808
+Email: accounts@futuregridai.com
+Address: 980 Digital Way, Morristown, NJ 07960
+Total Amount: $14,280.95

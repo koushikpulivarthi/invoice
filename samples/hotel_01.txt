@@ -1,0 +1,18 @@
+TAX INVOICE
+Sunrise Grand Hotel Pvt Ltd
+GSTIN: 29ABCDE1234F1Z5
+Invoice No: HTL/2026/0456
+Invoice Date: 14-11-2026
+Bill To: Kumar Traders
+GSTIN: 27AAACT2727Q1ZV
+Guest Name: Ravi Kumar
+Room No: 302
+Room Type: Deluxe
+Check-in: 10-11-2026
+Check-out: 13-11-2026
+No. of Nights: 3
+Tariff: 4500.00
+Subtotal: 13500.00
+CGST (6%): 810.00
+SGST (6%): 810.00
+Grand Total: 15120.00

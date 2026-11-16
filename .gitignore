@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+build/
+dist/
+
+# Data - invoices and generated workbooks are not source code
+data/input/*
+data/output/*
+!data/input/.gitkeep
+!data/output/.gitkeep
+*.xlsx

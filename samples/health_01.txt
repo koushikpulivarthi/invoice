@@ -1,0 +1,15 @@
+INVOICE
+City Care Hospital
+Invoice No: CCH-7781
+Date: 05/11/2026
+Patient Name: Meena Devi
+UHID: P-22019
+Doctor Name: Dr. Anil Rao
+Department: Cardiology
+Admission Date: 01/11/2026
+Discharge Date: 04/11/2026
+Diagnosis: Chest pain
+Room Charges: 6000.00
+Consultation Fee: 1500.00
+Pharmacy: 2300.00
+Total: 9800.00
