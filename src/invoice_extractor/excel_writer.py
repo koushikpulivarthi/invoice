@@ -1,4 +1,3 @@
-"""Step 4 - write the rows to an Excel workbook."""
 from pathlib import Path
 
 from openpyxl import Workbook
@@ -13,9 +12,8 @@ HEADER_FONT = Font(bold=True, color="FFFFFF")
 NUMBER_FORMAT = "#,##0.00"
 MAX_WIDTH = 45
 
-
 def _write_sheet(wb: Workbook, title: str, columns: list[str], rows: list[dict]) -> None:
-    ws = wb.create_sheet(title[:31])              # Excel limits sheet names to 31 chars
+    ws = wb.create_sheet(title[:31])
     ws.append(columns)
     for cell in ws[1]:
         cell.font = HEADER_FONT
@@ -41,9 +39,7 @@ def _write_sheet(wb: Workbook, title: str, columns: list[str], rows: list[dict])
     ws.freeze_panes = "A2"
     ws.auto_filter.ref = ws.dimensions
 
-
 def write_workbook(rows: list[dict], out_path: Path, line_items: list[dict] | None = None) -> None:
-    """One 'All_Invoices' sheet, one sheet per category, and a 'Line Items' sheet."""
     wb = Workbook()
     wb.remove(wb.active)
     _write_sheet(wb, "All_Invoices", COMMON_COLUMNS, rows)

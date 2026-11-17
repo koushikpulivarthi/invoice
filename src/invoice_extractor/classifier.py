@@ -1,14 +1,11 @@
-"""Step 1 - decide which sector an invoice belongs to."""
 import re
 
 from .rules import CATEGORIES, DEFAULT_CATEGORY, GST_CATEGORY
 
-
 def classify(text: str) -> str:
-    """Return the category name for the invoice text."""
     body = text.lower()
     non_empty = [line for line in body.splitlines() if line.strip()]
-    header = " ".join(non_empty[:5])             # first five lines = the invoice heading
+    header = " ".join(non_empty[:5])
 
     scores = {}
     for name, cfg in CATEGORIES.items():

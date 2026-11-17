@@ -1,17 +1,9 @@
-"""Read the plain text of an invoice, whatever the file format.
-
-Supported:
-  .txt                    plain text
-  .pdf                    text layer; scanned pages are OCR'd automatically
-  .docx                   Word paragraphs and tables, in document order
-  .jpg .jpeg .png .bmp .tif .tiff .webp   images, OCR'd
-"""
 import re
 from pathlib import Path
 
-try:  # PyMuPDF; the module was renamed from "fitz" to "pymupdf"
+try:
     import pymupdf as fitz
-except ImportError:  # older PyMuPDF versions
+except ImportError:
     import fitz
 from docx import Document
 from docx.table import Table
@@ -25,9 +17,8 @@ WORD_SUFFIXES = {".docx"}
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff", ".webp"}
 SUPPORTED_SUFFIXES = TEXT_SUFFIXES | PDF_SUFFIXES | WORD_SUFFIXES | IMAGE_SUFFIXES
 
-MIN_PDF_TEXT_CHARS = 20   # fewer characters than this on a page = scanned page, use OCR
+MIN_PDF_TEXT_CHARS = 20
 OCR_DPI = 200
-
 
 def read_text(path: Path) -> str:
     suffix = path.suffix.lower()
@@ -41,32 +32,23 @@ def read_text(path: Path) -> str:
         return ocr.ocr_image(path)
     raise ValueError(f"unsupported file type '{suffix}' (old .doc files: save as .docx)")
 
-
 def _read_pdf(path: Path) -> str:
     return "\n".join(_read_pdf_pages(path))
-
 
 def _read_pdf_pages(path: Path) -> list[str]:
     pages = []
     with fitz.open(path) as pdf:
         for page in pdf:
             text = page.get_text("text").strip()
-            if len(text) < MIN_PDF_TEXT_CHARS:             # scanned page: render and OCR it
+            if len(text) < MIN_PDF_TEXT_CHARS:
                 pixmap = page.get_pixmap(dpi=OCR_DPI, alpha=False)
                 text = ocr.ocr_image(_pixmap_to_pil(pixmap))
             pages.append(text)
     return pages
 
-
 INVOICE_NO_RE = re.compile(r"invoice\s*(?:no|number)\.?\s*:\s*([A-Z0-9][A-Z0-9/\-]*)", re.IGNORECASE)
 
-
 def group_pages(pages: list[str]) -> list[str]:
-    """Join pages that belong to the same invoice (same invoice number).
-
-    A PDF with three one-page invoices gives three documents.
-    A page without an invoice number is treated as a continuation of the previous one.
-    """
     documents: list[str] = []
     last_key = None
     for page in pages:
@@ -80,28 +62,23 @@ def group_pages(pages: list[str]) -> list[str]:
             last_key = key
     return documents
 
-
-BAD_CHAR = "�"   # replacement character produced by some PDFs for dashes and symbols
-
+BAD_CHAR = "�"
 
 def read_documents(path: Path) -> list[str]:
-    """Return one text per invoice in the file (a PDF can hold several invoices)."""
     if path.suffix.lower() == ".pdf":
         docs = group_pages(_read_pdf_pages(path))
     else:
         docs = [read_text(path)]
     return [doc.replace(BAD_CHAR, "–") for doc in docs]
 
-
 def _pixmap_to_pil(pixmap):
     from PIL import Image
     return Image.frombytes("RGB", (pixmap.width, pixmap.height), pixmap.samples)
 
-
 def _read_docx(path: Path) -> str:
     document = Document(str(path))
     lines = []
-    for child in document.element.body.iterchildren():   # keeps paragraphs and tables in order
+    for child in document.element.body.iterchildren():
         tag = child.tag.rsplit("}", 1)[-1]
         if tag == "p":
             lines.append(Paragraph(child, document).text)
@@ -109,13 +86,12 @@ def _read_docx(path: Path) -> str:
             lines.extend(_table_lines(Table(child, document)))
     return "\n".join(lines)
 
-
 def _table_lines(table: Table) -> list[str]:
     lines = []
     for row in table.rows:
         cells = [cell.text.strip() for cell in row.cells]
         cells = [cell for cell in cells if cell]
-        if len(cells) == 2:                 # "Label | Value" rows become "Label: Value"
+        if len(cells) == 2:
             lines.append(f"{cells[0]}: {cells[1]}")
         elif cells:
             lines.append(" | ".join(cells))

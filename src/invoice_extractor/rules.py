@@ -1,37 +1,11 @@
-"""
-Extraction rules - the ONLY file you need to edit to tune or add categories.
-
-  * COMMON_FIELDS : found on every invoice
-  * CATEGORIES    : keywords (for classification) + extra columns (for Excel)
-
-Field spec formats
-------------------
-  {"labels": [...]}            text after "Label:" or "Label -"
-  {"labels": [...], "type": "number"}   same, but stored as a number
-  {"regex": r"..."}            first match of a pattern anywhere in the text
-
-Label tips
-----------
-  * A label starting with "^" must be at the start of a line.
-    e.g. "^date" matches "Date: 01/01/2026" but not "Admission Date: ...".
-  * Labels are case-insensitive. "\\s*" allows any spacing.
-"""
-
-# ---------------------------------------------------------------------------
-# Value patterns
-# ---------------------------------------------------------------------------
 GSTIN_RE = r"\b\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]\b"
-PLATE_RE = r"\b[A-Z]{2}[ -]?\d{1,2}[ -]?[A-Z]{1,3}[ -]?\d{4}\b"   # MH12AB1234
-VIN_RE = r"\b[A-HJ-NPR-Z0-9]{17}\b"                               # chassis number
-IRN_RE = r"\b[a-f0-9]{64}\b"                                      # e-invoice IRN
-PHONE_RE = r"(?:Phone|Ph|Tel|Mobile)\.?\s*[:\-]?\s*(\+?[\d(][\d()\s+\-]{6,}\d)"   # group 1
+PLATE_RE = r"\b[A-Z]{2}[ -]?\d{1,2}[ -]?[A-Z]{1,3}[ -]?\d{4}\b"
+VIN_RE = r"\b[A-HJ-NPR-Z0-9]{17}\b"
+IRN_RE = r"\b[a-f0-9]{64}\b"
+PHONE_RE = r"(?:Phone|Ph|Tel|Mobile)\.?\s*[:\-]?\s*(\+?[\d(][\d()\s+\-]{6,}\d)"
 EMAIL_RE = r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+"
-TAX_RATE_RE = r"(?i)tax\s*\(\s*([\d.]+)\s*%\s*\)"                 # "Tax (6.625%)" -> group 1
+TAX_RATE_RE = r"(?i)tax\s*\(\s*([\d.]+)\s*%\s*\)"
 
-# ---------------------------------------------------------------------------
-# Common fields
-# ---------------------------------------------------------------------------
-# Column order in the Excel sheets. "File Name" and "Category" are added by code.
 COMMON_COLUMNS = [
     "File Name", "Category", "Invoice No", "Invoice Date", "Due Date", "Payment Terms",
     "Seller", "Seller Address", "Seller GSTIN", "Phone", "Email",
@@ -40,7 +14,6 @@ COMMON_COLUMNS = [
     "Payment Method", "Bank", "Account No", "Routing No",
 ]
 
-# Columns of the "Line Items" sheet (one row per product/service line)
 LINE_ITEM_COLUMNS = [
     "Invoice No", "Invoice Date", "Category", "File Name", "Line No",
     "Code / HSN", "Extra Info", "Description", "Qty", "Unit Price", "Amount", "Line Tax", "Line Total",
@@ -74,26 +47,18 @@ COMMON_FIELDS = {
     "Routing No": {"labels": [r"routing"]},
 }
 
-# Used when no sector category matched but the invoice has GST terms
-# Fields written as "LABEL" on one line and the value on the next line (Word/PDF boxed layouts)
 BLOCK_LABELS = {
     "Invoice No": r"invoice\s*(?:no|number|#)\.?",
     "Invoice Date": r"invoice\s*date",
     "Due Date": r"due\s*date",
     "Payment Terms": r"terms",
     "Subtotal": r"sub\s*total",
-    "Total": r"total\s*due(?:\s*\([^)]*\))?|grand\s*total|total\s*amount|total",   # value is a number
+    "Total": r"total\s*due(?:\s*\([^)]*\))?|grand\s*total|total\s*amount|total",
 }
 
 GST_CATEGORY = "GST"
-DEFAULT_CATEGORY = "Other"   # common columns only
+DEFAULT_CATEGORY = "Other"
 
-# ---------------------------------------------------------------------------
-# Categories
-#   keywords : words that identify the sector (heading words count 3x)
-#   fields   : extra columns for that sector's Excel sheet
-#   generic  : True = only used when no sector category matched
-# ---------------------------------------------------------------------------
 CATEGORIES = {
     "Health": {
         "keywords": ["hospital", "clinic", "patient", "doctor", "consultation", "pharmacy",
